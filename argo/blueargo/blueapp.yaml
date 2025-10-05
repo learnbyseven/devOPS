@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ngargo
+  name: blue
   namespace: argocd # ArgoCD runs in the argocd namespace
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: ngargo
+  project: devops
   source:
-    repoURL: https://github.com/learnbyseven/ngargo.git
+    repoURL: https://github.com/learnbyseven/devOPS.git
     targetRevision: main
-    path: .
+    path: blue
   destination:
     server: https://kubernetes.default.svc # The target cluster
-    namespace: ngargo
+    namespace: blue
   syncPolicy:
     automated:
       prune: true # auto sync to delete resources no longer exist in git
