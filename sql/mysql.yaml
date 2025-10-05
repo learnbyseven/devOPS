@@ -11,22 +11,23 @@ spec:
     metadata:
       labels:
         app: mysql-ephemeral
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "mysql-db-role"
-        vault.hashicorp.com/agent-inject-secret-mysql-root-password: "secret/data/database/mysql-root"
+      #annotations:
+      # vault.hashicorp.com/agent-inject: "true"
+      #vault.hashicorp.com/role: "mysql-db-role"
+      #vault.hashicorp.com/agent-inject-secret-mysql-root-password: "secret/data/database/mysql-root"
     spec:
       containers:
       - name: mysql
         image: mysql:8.0 # Or your desired MySQL image version
         env:
         - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret 
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_DATABASE
-          value: mydatabase # Optional: specify a default database
+          value: root@123
+          #valueFrom:
+           # secretKeyRef:
+            #  name: mysql-secret 
+            #  key: MYSQL_ROOT_PASSWORD
+        #- name: MYSQL_DATABASE
+        #  value: mydatabase # Optional: specify a default database
         ports:
         - containerPort: 3306
         volumeMounts:
