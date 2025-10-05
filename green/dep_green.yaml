@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeen
+  namespace: green
+  labels:
+    app: green
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: green
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: green
+        version: v1
+    spec:
+      containers:
+      - name: green
+        image: docker.io/giriraj789/informatica:v2
+        ports:
+        - containerPort: 80
+          name: http
+---
