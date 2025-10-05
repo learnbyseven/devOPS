@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-ephemeral
+spec:
+  selector:
+    matchLabels:
+      app: mysql-ephemeral
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql-ephemeral
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "mysql-db-role"
+        vault.hashicorp.com/agent-inject-secret-mysql-root-password: "secret/data/database/mysql-root"
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0 # Or your desired MySQL image version
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret 
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          value: mydatabase # Optional: specify a default database
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-data
+        emptyDir: {} # This defines the ephemeral storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-ephemeral
+spec:
+  selector:
+    app: mysql-ephemeral
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP

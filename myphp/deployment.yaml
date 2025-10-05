@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment
+  labels:
+    app: phpmyadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+      - name: phpmyadmin
+        image: phpmyadmin/phpmyadmin:latest # Or a specific version like phpmyadmin/phpmyadmin:5.2.1
+        ports:
+        - containerPort: 80
+        env:
+        - name: PMA_HOST # Hostname or IP address of your MySQL server
+          value: "mysql-service" # Replace with your MySQL service name or IP
+        - name: PMA_PORT # Port of your MySQL server
+          value: "3306"
+        - name: PMA_ARBITRARY # Set to 1 to allow arbitrary server connections
+          value: "1" 
+        - name: MYSQL_ROOT_PASSWORD
+          value: "merasql2005"
+        #- name: MYSQL_USER
+        #value: "merasql2005"
+            #- name: MYSQL_PASSWORD
+            #value: "merasql2005"
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+spec:
+  selector:
+    app: phpmyadmin
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP # Or ClusterIP if you manage ingress separately

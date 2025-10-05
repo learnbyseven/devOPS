@@ -1,0 +1,3 @@
+path "kv/myappv2/*" {
+	capabilities =["read"]
+}
