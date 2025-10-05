@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sql
+  namespace: argocd # ArgoCD runs in the argocd namespace
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: devops
+  source:
+    repoURL: https://github.com/learnbyseven/devOPS.git
+    targetRevision: main
+    path: sql
+  destination:
+    server: https://kubernetes.default.svc # The target cluster
+    namespace: sql
+  syncPolicy:
+    automated:
+      prune: true # auto sync to delete resources no longer exist in git
+      selfHeal: true # auto sync when state deviate/drift from git 
+
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true # Pruning start after all new resources are deployed
+      - ServerSideApply=true # conflict resolution 
+      - ApplyOutOfSyncOnly=true #Reduce API load
+      - PrunePropogationPolicy=foregroud # Safer, waiting for dependent resources) 
+      - Validation=true #Kube Schema validation
+      - Replace=true # Recreate when necessary
+

@@ -1,0 +1,18 @@
+    apiVersion: argoproj.io/v1alpha1
+    kind: AppProject
+    metadata:
+      name: devops # Unique name for your project
+      namespace: argocd # The namespace where Argo CD is installed
+    spec:
+      description: "A project for DEVOPS"
+      sourceRepos:
+        - "https://github.com/learnbyseven/devOPS.git" # Allowed source repositories
+      destinations:
+        - namespace: '*' # Allowed destination namespaces
+          server: "https://kubernetes.default.svc" # Allowed destination clusters
+      clusterResourceWhitelist:
+        - group: '*' # Allow all cluster-scoped resources (use with caution)
+          kind: '*'
+      namespaceResourceWhitelist:
+        - group: '*' # Allow specific namespace-scoped resources
+          kind: '*'
