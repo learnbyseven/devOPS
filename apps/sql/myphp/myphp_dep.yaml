@@ -21,13 +21,13 @@ spec:
         - containerPort: 80
         env:
         - name: PMA_HOST # Hostname or IP address of your MySQL server
-          value: "mysql-service" # Replace with your MySQL service name or IP
+          value: "mysql-ephemeral" # Replace with your MySQL service name or IP
         - name: PMA_PORT # Port of your MySQL server
           value: "3306"
         - name: PMA_ARBITRARY # Set to 1 to allow arbitrary server connections
           value: "1" 
         - name: MYSQL_ROOT_PASSWORD
-          value: "merasql2005"
+          value: "root@123"
         #- name: MYSQL_USER
         #value: "merasql2005"
             #- name: MYSQL_PASSWORD
@@ -47,3 +47,16 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP # Or ClusterIP if you manage ingress separately
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service-np
+spec:
+  type: NodePort # This exposes the service on a port on each node
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080 # Optional: specify a port in the 30000-32767 range
+  selector:
+    app: phpmyadmin
