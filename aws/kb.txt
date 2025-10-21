@@ -1,0 +1,2 @@
+#aws sso login //allow cli to get permission
+#aws ec2 describe-instances 
