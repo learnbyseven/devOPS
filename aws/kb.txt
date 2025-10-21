@@ -1,2 +1,26 @@
 #aws sso login //allow cli to get permission
 #aws ec2 describe-instances 
+g.rajawat@WW9GVW3CPW .aws % tree
+.
+├── cli
+│   └── cache
+│       ├── 7176559b055d1b97fb47db818181c51b900c999d.json
+│       └── session.db
+├── config
+├── credentials
+└── sso
+    └── cache
+        ├── 8ce12617007b607f8d78e3db5d072a8ccd3f435e.json
+        └── d076511db67044f7f4d98034176bd2d333a5cde6.json
+
+5 directories, 6 files
+g.rajawat@WW9GVW3CPW .aws % cat config 
+[profile Users-150380270330]
+sso_session = g.rajawat@f5.com
+sso_account_id = 150380270330
+sso_role_name = Users
+region = ap-south-1
+[sso-session g.rajawat@f5.com]
+sso_start_url = https://d-906774a4a9.awsapps.com/start/#
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
