@@ -32,13 +32,14 @@
 
   CLIENT_SCOPES
 
-  NAME: urn:amazon:webservices-dedicated
+  NAME: urn:amazon:webservices-dedicated (this has been already present, hence no need to create) 
   TYPE: SAML
   
 
   Add 2 mappers
   - 1
     Mapper_Type: Hardcoded attribute
+    name: Role
     SAML Attribute Name: https://aws.amazon.com/SAML/Attributes/Role
     SAML Attribute NameFormat: Basic
     Attribute value: arn:aws:iam::150380270330:role/keyrole,arn:aws:iam::150380270330:saml-provider/keycloak
@@ -88,8 +89,9 @@ Policy trust:
     ]
 }
 
+Metadata file need to upload to AWS 
 
-SS
+curl -k "https://ec2-3-6-82-209.ap-south-1.compute.amazonaws.com/realms/amazon/protocol/saml/descriptor" -o  "meta.xml"
 
 
 
