@@ -93,6 +93,9 @@ Metadata file need to upload to AWS
 
 curl -k "https://ec2-3-6-82-209.ap-south-1.compute.amazonaws.com/realms/amazon/protocol/saml/descriptor" -o  "meta.xml"
 
+OLD SSO URL : https://ec2-3-6-82-209.ap-south-1.compute.amazonaws.com/realms/aws/protocol/saml/clients/aws
+New SSO URL : https://ec2-3-6-82-209.ap-south-1.compute.amazonaws.com/realms/amazon/protocol/saml/clients/amazonclient
+
 
 
 
