@@ -1,1 +1,96 @@
-Steps
+"Steps"
+1. Realm creation name - 'aws'
+
+   ADD client to realm
+   -------------------
+2. client creation
+   - General Settings
+   - Name : aws
+   - client id : urn:amazon:webservices
+   
+  Access settings   
+  - Home URL : https://signin.aws.amazon.com/saml
+  - Valid redirect URIs: https://signin.aws.amazon.com/saml
+  - IDP-Initiated SSO URL name : aws
+  - Master SAML Processing URL : https://signin.aws.amazon.com/saml
+
+  SAML capabilities
+  - Name ID format : username
+  - Force POST binding: ON
+  - Include AuthnStatement: ON
+
+  Signature and Encryption
+  - Sign assertions: ON 
+  - Signature algorithm: RSA
+  - SAML signature key: KEY_ID
+  - Canonicalization method: EXCLUSIVE
+  Logout settings
+  - Front channel logout: ON
+
+  KEYS
+  Signing keys config : ON 
+
+  CLIENT_SCOPES
+
+  NAME: urn:amazon:webservices-dedicated
+  TYPE: SAML
+  
+
+  Add 2 mappers
+  - 1
+    Mapper_Type: Hardcoded attribute
+    SAML Attribute Name: https://aws.amazon.com/SAML/Attributes/Role
+    SAML Attribute NameFormat: Basic
+    Attribute value: arn:aws:iam::150380270330:role/keyrole,arn:aws:iam::150380270330:saml-provider/keycloak
+    SAVE
+  
+  - 2
+    Mapper_Type: User Property
+    name: RoleSessionName
+    Property: username
+    SAML Attribute Name: https://aws.amazon.com/SAML/Attributes/RoleSessionName
+    SAML Attribute NameFormat: Basic
+    SAVE
+  
+    SCOPE - full scope allowed - ON
+
+
+
+AWS "150380270330"
+
+IAM
+create role
+
+create policy or add already created adminstrator policy
+
+Policy trust:
+-------------
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::150380270330:saml-provider/keycloak"
+            },
+            "Action": "sts:AssumeRoleWithSAML",
+            "Condition": {
+                "StringEquals": {
+                    "SAML:aud": [
+                        "https://ap-south-1.signin.aws.amazon.com/saml/acs/SAMLSPK9DHVJ3QZTZ225M3",
+                        "https://ap-south-1.signin.aws.amazon.com/saml",
+                        "https://signin.aws.amazon.com/saml",
+                        "https://ap-south-2.signin.aws.amazon.com/saml"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+
+SS
+
+
+
+
